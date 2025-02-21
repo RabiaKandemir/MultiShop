@@ -8,11 +8,11 @@ namespace MultiShop.Order.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderingController : ControllerBase
+    public class OrderingsController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public OrderingController(IMediator mediator)
+        public OrderingsController(IMediator mediator)
         {
             _mediator = mediator;
         }
