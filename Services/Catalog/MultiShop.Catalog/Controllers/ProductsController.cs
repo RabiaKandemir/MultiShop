@@ -3,14 +3,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MultiShop.Catalog.Dtos.ProductDtos;
 using MultiShop.Catalog.Services.ProductServices;
-using MultiShop.Catalog.Services.ProductServices;
 
 namespace MultiShop.Catalog.Controllers
 {
-    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+	[Authorize]
+	public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
 

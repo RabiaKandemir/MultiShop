@@ -6,10 +6,10 @@ using MultiShop.Catalog.Services.SpecialOfferServices;
 
 namespace MultiShop.Catalog.Controllers
 {
-    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
-    public class SpecialOffersController : ControllerBase
+	[Authorize]
+	public class SpecialOffersController : ControllerBase
     {
         private readonly ISpecialOfferService _specialOfferService;
 
