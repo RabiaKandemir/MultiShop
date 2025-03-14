@@ -1,8 +1,9 @@
 ﻿using System.Security.Claims;
+using MultiShop.WebUI.Services.Concrete;
 
 namespace MultiShop.WebUI.Services
 {
-	public class LoginService : ILoginService
+    public class LoginService : ILoginService
 	{
 		private readonly IHttpContextAccessor _contextAccessor;
 
