@@ -50,7 +50,8 @@ public static class Config
 			ClientName="Multi Shop Visitor User",
 			AllowedGrantTypes=GrantTypes.ClientCredentials,
 			ClientSecrets={new Secret("multishopsecret".Sha256())},
-			AllowedScopes={ "CatalogReadPermission" , "CatalogFullPermission", "OcelotFullPermission", "CommentFullPermission", "ImageFullPermission" }
+			AllowedScopes={ "CatalogReadPermission" , "CatalogFullPermission", "OcelotFullPermission", "CommentFullPermission", "ImageFullPermission" },
+			
 		},
           //Manager
         new Client
@@ -59,7 +60,10 @@ public static class Config
 			ClientName="Multi Shop Manager User",
 	AllowedGrantTypes=GrantTypes.ResourceOwnerPassword,
 			ClientSecrets={new Secret("multishopsecret".Sha256())},
-			AllowedScopes={"CatalogFullPermission", "BasketFullPermission", "OcelotFullPermission" , "CommentFullPermission", "PaymentFullPermission" , "ImageFullPermission" }
+			AllowedScopes={"CatalogFullPermission", "CatalogReadPermission", "BasketFullPermission", "OcelotFullPermission" , "CommentFullPermission", "PaymentFullPermission" , "ImageFullPermission", IdentityServerConstants.LocalApi.ScopeName,
+			IdentityServerConstants.StandardScopes.Email,
+			IdentityServerConstants.StandardScopes.OpenId,
+			IdentityServerConstants.StandardScopes.Profile }
 		},
           //Admin
         new Client

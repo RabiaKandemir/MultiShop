@@ -32,6 +32,8 @@ builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
 builder.Services.Configure<ClientSettings>(
     builder.Configuration.GetSection("ClientSettings"));
+builder.Services.Configure<ServiceApiSettings>(
+	builder.Configuration.GetSection("ServiceApiSettings"));
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
