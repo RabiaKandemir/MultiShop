@@ -60,7 +60,7 @@ public static class Config
 			ClientName="Multi Shop Manager User",
 	AllowedGrantTypes=GrantTypes.ResourceOwnerPassword,
 			ClientSecrets={new Secret("multishopsecret".Sha256())},
-			AllowedScopes={"CatalogFullPermission", "CatalogReadPermission", "BasketFullPermission", "OcelotFullPermission" ,"DiscountFullPermission", "CommentFullPermission", "PaymentFullPermission" , "ImageFullPermission", IdentityServerConstants.LocalApi.ScopeName,
+			AllowedScopes={"CatalogFullPermission", "CatalogReadPermission", "BasketFullPermission", "OcelotFullPermission" ,"DiscountFullPermission", "CommentFullPermission", "PaymentFullPermission" , "ImageFullPermission", "OrderFullPermission",IdentityServerConstants.LocalApi.ScopeName,
 			IdentityServerConstants.StandardScopes.Email,
 			IdentityServerConstants.StandardScopes.OpenId,
 			IdentityServerConstants.StandardScopes.Profile }
