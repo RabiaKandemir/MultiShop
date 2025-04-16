@@ -19,6 +19,7 @@ public static class Config
 		   new ApiResource("ResourcePayment"){Scopes={ "PaymentFullPermission" } },
 		   new ApiResource("ResourceImage"){Scopes={ "ImageFullPermission" } },
 		   new ApiResource("ResourceOcelot"){Scopes={ "OcelotFullPermission" } },
+		   new ApiResource("ResourceMessage"){Scopes={ "MessageFullPermission" } },
 		new ApiResource(IdentityServerConstants.LocalApi.ScopeName)
 	};
 	public static IEnumerable<IdentityResource> IdentityResources => new IdentityResource[]
@@ -39,6 +40,7 @@ public static class Config
 		  new ApiScope("PaymentFullPermission","Full authority for payment operations"),
 		  new ApiScope("ImageFullPermission","Full authority for image operations"),
 		  new ApiScope("OcelotFullPermission","Full authority for ocelot operations"),
+		  new ApiScope("MessageFullPermission","Full authority for message operations"),
 			new ApiScope(IdentityServerConstants.LocalApi.ScopeName)
 	};
 	public static IEnumerable<Client> Clients => new Client[]
@@ -60,7 +62,7 @@ public static class Config
 			ClientName="Multi Shop Manager User",
 	AllowedGrantTypes=GrantTypes.ResourceOwnerPassword,
 			ClientSecrets={new Secret("multishopsecret".Sha256())},
-			AllowedScopes={"CatalogFullPermission", "CatalogReadPermission", "BasketFullPermission", "OcelotFullPermission" ,"DiscountFullPermission", "CommentFullPermission", "PaymentFullPermission" , "ImageFullPermission", "OrderFullPermission",IdentityServerConstants.LocalApi.ScopeName,
+			AllowedScopes={"CatalogFullPermission", "CatalogReadPermission", "BasketFullPermission", "OcelotFullPermission" ,"DiscountFullPermission", "CommentFullPermission", "MessageFullPermission","PaymentFullPermission" , "ImageFullPermission", "OrderFullPermission",IdentityServerConstants.LocalApi.ScopeName,
 			IdentityServerConstants.StandardScopes.Email,
 			IdentityServerConstants.StandardScopes.OpenId,
 			IdentityServerConstants.StandardScopes.Profile }
