@@ -62,7 +62,7 @@ public static class Config
 			ClientName="Multi Shop Manager User",
 	AllowedGrantTypes=GrantTypes.ResourceOwnerPassword,
 			ClientSecrets={new Secret("multishopsecret".Sha256())},
-			AllowedScopes={"CatalogFullPermission", "CatalogReadPermission", "BasketFullPermission", "OcelotFullPermission" ,"DiscountFullPermission", "CommentFullPermission", "MessageFullPermission","PaymentFullPermission" , "ImageFullPermission", "OrderFullPermission",IdentityServerConstants.LocalApi.ScopeName,
+			AllowedScopes={"CatalogFullPermission", "CatalogReadPermission", "BasketFullPermission", "OcelotFullPermission" ,"DiscountFullPermission", "CommentFullPermission", "CargoFullPermission","MessageFullPermission","PaymentFullPermission" , "ImageFullPermission", "OrderFullPermission",IdentityServerConstants.LocalApi.ScopeName,
 			IdentityServerConstants.StandardScopes.Email,
 			IdentityServerConstants.StandardScopes.OpenId,
 			IdentityServerConstants.StandardScopes.Profile }
@@ -74,7 +74,7 @@ public static class Config
 			ClientName="Multi Shop Admin User",
 AllowedGrantTypes=GrantTypes.ResourceOwnerPassword,
 			ClientSecrets={new Secret("multishopsecret".Sha256())},
-			AllowedScopes={ "CatalogFullPermission", "CatalogReadPermission", "DiscountFullPermission", "OrderFullPermission" ,"CargoFullPermission","BasketFullPermission","OcelotFullPermission","CommentFullPermission","PaymentFullPermission","ImageFullPermission",
+			AllowedScopes={ "CatalogFullPermission", "CatalogReadPermission", "DiscountFullPermission","OrderFullPermission" ,"CargoFullPermission","BasketFullPermission","OcelotFullPermission","CommentFullPermission","PaymentFullPermission","ImageFullPermission",
 			IdentityServerConstants.LocalApi.ScopeName,
 			IdentityServerConstants.StandardScopes.Email,
 			IdentityServerConstants.StandardScopes.OpenId,

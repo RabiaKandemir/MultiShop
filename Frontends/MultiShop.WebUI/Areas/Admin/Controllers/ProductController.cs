@@ -91,7 +91,7 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         {
             ProductViewbagList();
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7071/api/Products/ProductListWithCategory");
+            var responseMessage = await client.GetAsync("http://localhost:7071/api/Products/ProductListWithCategory");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
