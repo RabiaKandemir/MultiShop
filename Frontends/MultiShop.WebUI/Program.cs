@@ -203,6 +203,7 @@ builder.Services.AddHttpClient<IMessageStatisticService, MessageStatisticService
     opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Message.Path}");
 }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
+
 builder.Services.AddHttpClient();
 var app = builder.Build();
 

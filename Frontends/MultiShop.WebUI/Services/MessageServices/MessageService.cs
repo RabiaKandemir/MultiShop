@@ -24,9 +24,11 @@ namespace MultiShop.WebUI.Services.MessageServices
             return values;
         }
 
-        public Task<int> GetTotalMessageCountByReceiverId(string id)
+        public async Task<int> GetTotalMessageCountByReceiverId(string id)
         {
-            throw new NotImplementedException();
+            var responseMessage = await _httpClient.GetAsync("UserMessage/GetTotalMessageCountByReceiverId?id="+id);
+            var values = await responseMessage.Content.ReadFromJsonAsync<int>();
+            return values;
         }
     }
 }
