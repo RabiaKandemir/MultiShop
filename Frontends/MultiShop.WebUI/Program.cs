@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.Razor;
 using MultiShop.WebUI.Handlers;
 using MultiShop.WebUI.Services;
 using MultiShop.WebUI.Services.BasketServices;
@@ -59,6 +60,7 @@ builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddHttpClient<IIdentityService, IdentityService>();
 
 
+builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
 builder.Services.Configure<ClientSettings>(
     builder.Configuration.GetSection("ClientSettings"));
@@ -204,7 +206,13 @@ builder.Services.AddHttpClient<IMessageStatisticService, MessageStatisticService
 }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
 
 
-builder.Services.AddHttpClient();
+
+builder.Services.AddLocalization(opt =>
+{
+    opt.ResourcesPath = "Resources";
+});
+builder.Services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -219,7 +227,12 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
+var supportedCultures = new[]
+{
+    "en","fr","de","it","tr"
+};
+var localizationOptions=new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[4]).AddSupportedCultures(supportedCultures).AddSupportedUICultures(supportedCultures);    
+app.UseRequestLocalization(localizationOptions);
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

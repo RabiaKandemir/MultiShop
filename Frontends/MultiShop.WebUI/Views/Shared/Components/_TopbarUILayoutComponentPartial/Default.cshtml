@@ -1,4 +1,6 @@
-﻿<div class="container-fluid">
+﻿@using MultiShop.WebUI.Models.RapidApiViewModels.CurrenciesViewModels_
+@model ExchangeRateViewModel
+@* <div class="container-fluid">
     
     <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
         <div class="col-lg-4">
@@ -24,4 +26,6 @@
             <h5 class="m-0">+90 123 456 6789</h5>
         </div>
     </div>
-</div>
+</div> *@
+
+<span class="mx-4"><img src="~/images/currencies/usd_ico.png" style="height:25px" /> @Model.Usd.ToString("#.#0") TRY - <img src="~/images/currencies/euro_ico.png" style="height:25px" /> @Model.Eur.ToString("#.#0") TRY</span>

@@ -1,0 +1,20 @@
+﻿﻿<!-- Breadcrumb Start -->
+<div class="container-fluid">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="@ViewBag.Dr2">@ViewBag.Dr1</a>
+                @if (@ViewBag.Dr3 != null)
+                {
+                    <a class="breadcrumb-item text-dark" href="@ViewBag.Dr4">@ViewBag.Dr3</a>
+
+                    @if (ViewBag.Dr5 != null)
+                    {
+                        <span class="breadcrumb-item active">@ViewBag.Dr5</span>
+                    }
+                }
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
