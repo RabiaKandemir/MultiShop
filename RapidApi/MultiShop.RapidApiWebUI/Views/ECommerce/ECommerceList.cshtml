@@ -1,0 +1,38 @@
+﻿@model ECommerceViewModel.Data
+@{
+    Layout = null;
+    int count = 0;
+}
+<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <tr>
+                    <td>#</td>
+                    <td>Ürün Görseli</td>
+                    <td>Ürün Adı</td>
+                    <td>Ürün Açıklaması</td>
+                    <td>Ürün Puanı</td>
+                    <td>Ürün Fiyatı</td>
+                    <td>Ürün Detayları</td>
+                </tr>
+                @foreach (var item in Model.products)
+                {
+                    count++;
+                    <tr>
+                        <td>@count</td>
+                        <td><img src="@item.product_photos[0]" style="width:100px; height:100px;" /></td>
+                        <td>@item.product_title</td>
+                        <td>@(item.product_description.Length >= 100 ? @item.product_description.Substring(0, item.product_description.Substring(0, 100).LastIndexOf(" ")) + "..." : item.product_description)</td>
+                        <td>@item.product_rating</td>
+                        <td>@(item.typical_price_range is not null ? item.typical_price_range.GetValue(0):"₺ 0.00")</td>
+                        <td><a href="@item.product_page_url" class="btn btn-primary">Ürün Detayları</a></td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+
+    </div>
+</div>
