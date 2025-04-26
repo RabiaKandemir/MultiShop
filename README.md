@@ -70,7 +70,7 @@ MultiShop projesi, kullanıcıların oturum açarak veya ziyaretçi olarak sitey
 ![Productd](https://github.com/user-attachments/assets/070777b5-b32f-4914-a64d-3aefb846e0b1)
 ![Yprum](https://github.com/user-attachments/assets/fea3930f-6445-4092-9f77-3831d7b1aa11)
 ![ödeme](https://github.com/user-attachments/assets/18cbd78f-d93a-48dc-9123-92ca0673fd00)
-![ödeme](https://github.com/user-attachments/assets/d9911528-fc7a-4241-a609-306ce17b9609)
+![Siparis](https://github.com/user-attachments/assets/f512a4d1-a544-4af7-b14d-8d9682d3aaea)
 ![ödeme1](https://github.com/user-attachments/assets/e8f353d1-aa9a-40a2-96f1-0a6b05f8bd9e)
 ![ödeme2](https://github.com/user-attachments/assets/d4609770-2964-4d44-b7b6-b9b8727f00a9)
 ![Login](https://github.com/user-attachments/assets/dfeee147-07c5-4857-8382-53cf72526d3d)
