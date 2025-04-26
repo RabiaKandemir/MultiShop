@@ -90,17 +90,10 @@ namespace MultiShop.WebUI.Areas.Admin.Controllers
         public async Task<IActionResult> ProductListWithCategory()
         {
             ProductViewbagList();
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("http://localhost:7071/api/Products/ProductListWithCategory");
-            if (responseMessage.IsSuccessStatusCode)
-            {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var values = JsonConvert.DeserializeObject<List<ResultProductWithCategoryDto>>(jsonData);
-                return View(values);
-            }
-
-            return View();
+            var values = await _productService.GetProductWithCategoryAsync();
+            return View(values);
         }
+
         void ProductViewbagList()
         {
             ViewBag.v0 = "Ürün İşlemleri";

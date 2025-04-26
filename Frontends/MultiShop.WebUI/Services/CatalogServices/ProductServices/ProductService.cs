@@ -31,9 +31,8 @@ namespace MultiShop.WebUI.Services.CatalogServices.ProductServices
 
         public async Task<List<ResultProductWithCategoryDto>> GetProductWithCategoryAsync()
         {
-            var responseMessage = await _httpClient.GetAsync("products");
-            var jsonData = await responseMessage.Content.ReadAsStringAsync();
-            var values = JsonConvert.DeserializeObject<List<ResultProductWithCategoryDto>>(jsonData);
+            var responseMessage = await _httpClient.GetAsync("products/productlistwithcategory");
+            var values = await responseMessage.Content.ReadFromJsonAsync<List<ResultProductWithCategoryDto>>();
             return values;
         }
 
@@ -46,7 +45,7 @@ namespace MultiShop.WebUI.Services.CatalogServices.ProductServices
 
         public async Task<List<ResultProductWithCategoryDto>> GetProductsWithCategoryByCategoryIdAsync(string categoryId)
         {
-            var responseMessage = await _httpClient.GetAsync("products/ProductListWithCategoryByCategoryId?id=" + categoryId);
+            var responseMessage = await _httpClient.GetAsync("products/ProductListWithCategoryByCategoryId/" + categoryId);
             var jsonData = await responseMessage.Content.ReadAsStringAsync();
             var values = JsonConvert.DeserializeObject<List<ResultProductWithCategoryDto>>(jsonData);
             return values;

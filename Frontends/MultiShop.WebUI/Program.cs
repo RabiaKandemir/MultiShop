@@ -1,246 +1,51 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc.Razor;
-using MultiShop.WebUI.Handlers;
-using MultiShop.WebUI.Services;
-using MultiShop.WebUI.Services.BasketServices;
-using MultiShop.WebUI.Services.CargoServices.CargoCompanieservices;
-using MultiShop.WebUI.Services.CargoServices.CargoCompanyServices;
-using MultiShop.WebUI.Services.CargoServices.CargoCustomerServices;
-using MultiShop.WebUI.Services.CatalogServices.AboutServices;
-using MultiShop.WebUI.Services.CatalogServices.BrandServices;
-using MultiShop.WebUI.Services.CatalogServices.CategoryServices;
-using MultiShop.WebUI.Services.CatalogServices.ContactServices;
-using MultiShop.WebUI.Services.CatalogServices.FeatureServices;
-using MultiShop.WebUI.Services.CatalogServices.FeatureSliderServices;
-using MultiShop.WebUI.Services.CatalogServices.OfferDiscountServices;
-using MultiShop.WebUI.Services.CatalogServices.ProductDetailServices;
-using MultiShop.WebUI.Services.CatalogServices.ProductImageServices;
-using MultiShop.WebUI.Services.CatalogServices.ProductImagesServices;
-using MultiShop.WebUI.Services.CatalogServices.ProductServices;
-using MultiShop.WebUI.Services.CatalogServices.SpecialOfferServices;
-using MultiShop.WebUI.Services.CommentServices;
-using MultiShop.WebUI.Services.Concrete;
-using MultiShop.WebUI.Services.DiscountServices;
-using MultiShop.WebUI.Services.Interfaces;
-using MultiShop.WebUI.Services.MessageServices;
-using MultiShop.WebUI.Services.OrderServices.OrderAddressServices;
-using MultiShop.WebUI.Services.OrderServices.OrderOrderingServices;
-using MultiShop.WebUI.Services.StatisticServices.CatalogStatisticServices;
-using MultiShop.WebUI.Services.StatisticServices.CommentStatisticServices;
-using MultiShop.WebUI.Services.StatisticServices.DiscountStatisticServices;
-using MultiShop.WebUI.Services.StatisticServices.MessageStatisticServices;
-using MultiShop.WebUI.Services.StatisticServices.UserStatisticServices;
-using MultiShop.WebUI.Services.UserIndentityServices;
-using MultiShop.WebUI.Settings;
+﻿using MultiShop.WebUI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Ayarlar, Kimlik Doğrulama, Servis ve HttpClient kayıtları
+builder.Services
+       .ConfigureCustomSettings(builder.Configuration)
+       .ConfigureCustomAuthentication()
+       .RegisterCustomServices()
+       .RegisterHttpClients(builder.Configuration);
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddCookie(JwtBearerDefaults.AuthenticationScheme, opt =>
+builder.Services.AddLocalization(options =>
 {
-    opt.LoginPath = "/Login/Index";
-    opt.LoginPath = "/login/LogOut";
-    opt.AccessDeniedPath = "/Pages/AccessDenied";
-    opt.Cookie.HttpOnly = true;
-    opt.Cookie.SameSite = SameSiteMode.Strict;
-    opt.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
-    opt.Cookie.Name = "MultiSjopJwt";
+    options.ResourcesPath = "Resources";
 });
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opt =>
-{
-    opt.LoginPath = "/Login/Index";
-    opt.ExpireTimeSpan = TimeSpan.FromDays(5);
-    opt.Cookie.Name = "MultiShopCookie";
-    opt.SlidingExpiration = true;
-});
-builder.Services.AddAccessTokenManagement();
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<ILoginService, LoginService>();
-builder.Services.AddHttpClient<IIdentityService, IdentityService>();
+builder.Services.AddMvc()
+                .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization();
 
-
-builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
-builder.Services.Configure<ClientSettings>(
-    builder.Configuration.GetSection("ClientSettings"));
-builder.Services.Configure<ServiceApiSettings>(
-    builder.Configuration.GetSection("ServiceApiSettings"));
-builder.Services.AddScoped<ResourceOwnerPasswordTokenHandler>();
-builder.Services.AddScoped<ClientCredentialTokenHandler>();
-builder.Services.AddHttpClient<IClientCredentialTokenService, ClientCredentialTokenService>();
-builder.Services.AddHttpClient<IUserService, UserService>();
-
-var values = builder.Configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();
-builder.Services.AddHttpClient<IUserService, UserService>(opt =>
-{
-    opt.BaseAddress = new Uri(values.IdentityServerUrl);
-}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
-
-builder.Services.AddHttpClient<ICategoryService, CategoryService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
-}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
-
-builder.Services.AddHttpClient<IProductService, ProductService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
-}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
-
-builder.Services.AddHttpClient<ISpecialOfferService, SpecialOfferService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
-}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
-
-builder.Services.AddHttpClient<IFeatureSliderService, FeatureSliderService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
-}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
-
-builder.Services.AddHttpClient<IFeatureService, FeatureService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
-}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
-
-builder.Services.AddHttpClient<IOfferDiscountService, OfferDiscountService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
-}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
-
-builder.Services.AddHttpClient<IBrandService, BrandService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
-}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
-
-builder.Services.AddHttpClient<IAboutService, AboutService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
-}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
-
-builder.Services.AddHttpClient<IProductImageService, ProductImageService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
-}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
-
-builder.Services.AddHttpClient<IProductDetailService, ProductDetailService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
-}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
-
-builder.Services.AddHttpClient<ICommentService, CommentService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Comment.Path}");
-}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
-
-builder.Services.AddHttpClient<IContactService, ContactService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
-}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
-
-
-builder.Services.AddHttpClient<IBasketService, BasketService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Basket.Path}");
-}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
-
-builder.Services.AddHttpClient<IDiscountService, DiscountService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Discount.Path}");
-}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
-
-builder.Services.AddHttpClient<IOrderAddressService, OrderAddressService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Order.Path}");
-}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
-
-builder.Services.AddHttpClient<IOrderOrderingService, OrderOrderingService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Order.Path}");
-}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
-
-builder.Services.AddHttpClient<IMessageService, MessageService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Message.Path}");
-}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
-
-builder.Services.AddHttpClient<IUserIdentityService, UserIdentityService>(opt =>
-{
-    opt.BaseAddress = new Uri(values.IdentityServerUrl);
-}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
-
-builder.Services.AddHttpClient<IUserStatisticService, UserStatisticService>(opt =>
-{
-    opt.BaseAddress = new Uri(values.IdentityServerUrl);
-}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
-
-
-builder.Services.AddHttpClient<ICargoCompanyService, CargoCompanyService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Cargo.Path}");
-}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
-
-
-builder.Services.AddHttpClient<ICargoCustomerService, CargoCustomerService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Cargo.Path}");
-}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
-
-builder.Services.AddHttpClient<ICatalogStatisticService, CatalogStatisticService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Catalog.Path}");
-}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
-
-builder.Services.AddHttpClient<ICommentStatisticService, CommentStatisticService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Comment.Path}");
-}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
-
-builder.Services.AddHttpClient<IDiscountStatisticService, DiscountStatisticService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Discount.Path}");
-}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
-
-builder.Services.AddHttpClient<IMessageStatisticService, MessageStatisticService>(opt =>
-{
-    opt.BaseAddress = new Uri($"{values.OcelotUrl}/{values.Message.Path}");
-}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
-
-
-
-builder.Services.AddLocalization(opt =>
-{
-    opt.ResourcesPath = "Resources";
-});
-builder.Services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
 
 var app = builder.Build();
 
+// Middleware Pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
-var supportedCultures = new[]
-{
-    "en","fr","de","it","tr"
-};
-var localizationOptions=new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[4]).AddSupportedCultures(supportedCultures).AddSupportedUICultures(supportedCultures);    
-app.UseRequestLocalization(localizationOptions);
+
+app.ConfigureCustomLocalization();
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Index}/{id?}");
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
-      name: "areas",
-      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-    );
+        name: "areas",
+        pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 });
+
 app.Run();
