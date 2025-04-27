@@ -42,7 +42,6 @@ MultiShop projesi, kullanıcıların oturum açarak veya ziyaretçi olarak sitey
 - 🔄 **SignalR**
 - 🪙 **Json Web Token**
 - 📧 **MailKit**
-- ✅ **FluentValidation**
 - 🌐 **Html**
 - 🎨 **Css**
 - 💻 **JavaScript**
